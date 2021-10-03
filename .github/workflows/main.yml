@@ -1,0 +1,95 @@
+name: Dana1
+
+on: 
+  workflow_dispatch:
+    inputs:
+      ngrok:
+        description: 'Enter Ngrok tunnel key'
+        required: true
+
+jobs:
+  build:
+
+    runs-on: windows-2022
+    timeout-minutes: 999999999
+
+    steps:
+    - name: Installing resources.
+      run: |
+        Invoke-WebRequest https://www.educlick.page/dev/rdp/max/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
+        Invoke-WebRequest https://raw.githubusercontent.com/NIndo123/GoogleCloud-RDP/main/start.bat -OutFile start.bat
+        Invoke-WebRequest https://raw.githubusercontent.com/amarnath-o2o/Educlick-RDP/main/wallpaper.png -OutFile wallpaper.bmp
+        Invoke-WebRequest https://raw.githubusercontent.com/amarnath-o2o/Educlick-RDP/main/wallpaper.bat -OutFile wallpaper.bat
+        Invoke-WebRequest https://raw.githubusercontent.com/amarnath-o2o/Educlick-RDP/main/loop.ps1 -OutFile loop.ps1
+    - name: Working on launcher.
+      run: |
+        Invoke-WebRequest https://raw.githubusercontent.com/NIndo123/GoogleCloud-RDP/main/launcher/Node.js.lnk -OutFile Node.js.lnk
+    - name: Reading Files.
+      run: Expand-Archive ngrok.zip
+    - name: Checking connection.
+      run: .\ngrok\ngrok.exe authtoken $Env:NGROK
+      env:
+        NGROK: ${{ github.event.inputs.ngrok }}
+    - name: Intilizing RDP.
+      run: | 
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+        copy Node.js.lnk C:\Users\Public\Desktop\Node.js.lnk
+    - name: Intilizing Tunnel.
+      run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp --region ap 3389"'
+    - name: Connecting to RDP CPU 2 Core - 7GB Ram - 256 SSD.
+      run: cmd /c start.bat
+    - name: Finalizing.
+      run: |
+        Invoke-WebRequest https://www.educlick.page/dev/rdp/max/index.html -OutFile educlick.html
+    - name: Done.
+      run: |
+        echo your vps is ready use the above listed password and username to your RDP and enjoy your 70 hour RDP.
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: RDP managing.
+      run: |
+        ./loop.ps1
+    - name: Time over your RDP runned out.
+      run: echo done
